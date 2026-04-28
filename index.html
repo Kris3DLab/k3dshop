@@ -114,6 +114,39 @@
       align-items: center;
     }
 
+    .notification {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,200,255,.25);
+      background: rgba(0,200,255,.10);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 22px rgba(0,200,255,.15);
+      cursor: pointer;
+    }
+
+    .notification .dot {
+      position: absolute;
+      right: -3px;
+      top: -3px;
+      min-width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      background: #ff3b3b;
+      color: white;
+      display: none;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 0 0 16px rgba(255,59,59,.6);
+    }
+
+    .notification.active .dot {
+      display: grid;
+    }
+
     nav a {
       color: #d9ecff;
       text-decoration: none;
@@ -443,6 +476,155 @@
       line-height: 1.6;
     }
 
+    .chat-widget {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 999;
+    }
+
+    .chat-toggle {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: linear-gradient(135deg, #00c8ff, #006dff);
+      color: #00121a;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(0,200,255,.45);
+      transition: .25s;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.08) rotate(5deg);
+      box-shadow: 0 0 55px rgba(0,200,255,.7);
+    }
+
+    .chat-box {
+      position: absolute;
+      right: 0;
+      bottom: 82px;
+      width: 345px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(6, 12, 26, .94);
+      border: 1px solid rgba(0,200,255,.28);
+      box-shadow: 0 22px 80px rgba(0,0,0,.48), 0 0 40px rgba(0,200,255,.18);
+      backdrop-filter: blur(22px);
+      display: none;
+    }
+
+    .chat-box.active {
+      display: block;
+      animation: chatPop .25s ease-out;
+    }
+
+    @keyframes chatPop {
+      from { opacity: 0; transform: translateY(18px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .chat-header {
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(0,200,255,.22), rgba(0,109,255,.18));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      box-shadow: 0 0 18px rgba(0,200,255,.45);
+    }
+
+    .chat-header h3 {
+      font-size: 17px;
+      margin-bottom: 3px;
+    }
+
+    .chat-header p {
+      color: #9fe4ff;
+      font-size: 13px;
+    }
+
+    .chat-body {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .message {
+      padding: 12px 14px;
+      border-radius: 16px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .message.bot {
+      background: rgba(255,255,255,.08);
+      color: #d9ecff;
+      border-top-left-radius: 5px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .quick-actions button {
+      border: 1px solid rgba(0,200,255,.22);
+      background: rgba(0,200,255,.10);
+      color: #d9ecff;
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: .2s;
+    }
+
+    .quick-actions button:hover {
+      background: rgba(0,200,255,.18);
+      transform: translateY(-2px);
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 8px;
+      padding: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.15);
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      color: white;
+      border-radius: 13px;
+      padding: 12px;
+      outline: none;
+    }
+
+    .chat-input input:focus {
+      border-color: rgba(0,200,255,.55);
+      box-shadow: 0 0 18px rgba(0,200,255,.14);
+    }
+
+    .chat-input button {
+      border: none;
+      border-radius: 13px;
+      padding: 0 15px;
+      background: #00c8ff;
+      color: #00121a;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
     footer {
       padding: 34px 8%;
       text-align: center;
@@ -492,6 +674,10 @@
       <a href="#products">Termékek</a>
       <a href="#why">Miért mi?</a>
       <a href="#contact">Kapcsolat</a>
+      <div class="notification" id="notificationBell" title="Új chat értesítés" onclick="toggleChat()">
+        🔔
+        <span class="dot" id="notificationCount">1</span>
+      </div>
     </nav>
   </header>
 
@@ -605,8 +791,102 @@
     </div>
   </section>
 
+  <div class="chat-widget">
+    <div class="chat-box" id="chatBox">
+      <div class="chat-header">
+        <img src="k3d_icon.png" alt="K3D SHOP">
+        <div>
+          <h3>K3D SHOP kapcsolat</h3>
+          <p>Online ügyfélszolgálat • Gyors válasz</p>
+        </div>
+      </div>
+
+      <div class="chat-body">
+        <div class="message bot">
+          Szia! 👋 Miben segíthetünk? Válassz egy gyors témát, vagy írj üzenetet.
+        </div>
+        <div id="chatMessages"></div>
+        <div class="quick-actions">
+          <button onclick="fillMessage('Weboldalt szeretnék rendelni')">🌐 Weboldal</button>
+          <button onclick="fillMessage('Discord setup érdekel')">💬 Discord</button>
+          <button onclick="fillMessage('Design csomagot szeretnék')">🎨 Design</button>
+          <button onclick="fillMessage('Egyedi ajánlatot kérek')">🚀 Egyedi</button>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input id="chatMessage" type="text" placeholder="Írd ide az üzeneted...">
+        <button onclick="sendMessage()">Küldés</button>
+      </div>
+    </div>
+
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+  </div>
+
   <footer>
     © 2026 K3D SHOP — Digitális termékek és kreatív szolgáltatások
   </footer>
+
+  <script>
+    const EMAIL_ENDPOINT = 'https://formsubmit.co/ajax/kris3dlab@gmail.com';
+    const SECOND_EMAIL = 'kriskosa13@gmail.com';
+
+    function toggleChat() {
+      document.getElementById('chatBox').classList.toggle('active');
+    }
+
+    function fillMessage(text) {
+      document.getElementById('chatMessage').value = text;
+    }
+
+    function addChatMessage(text, type = 'bot') {
+      const box = document.getElementById('chatMessages');
+      const msg = document.createElement('div');
+      msg.className = 'message ' + type;
+      msg.style.marginTop = '10px';
+      msg.textContent = text;
+      box.appendChild(msg);
+    }
+
+    function showNotification() {
+      document.getElementById('notificationBell').classList.add('active');
+      document.title = '🔔 Új chat • K3D SHOP';
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chatMessage');
+      const message = input.value.trim();
+
+      if (!message) {
+        input.focus();
+        return;
+      }
+
+      addChatMessage(message, 'bot');
+      input.value = '';
+      showNotification();
+
+      try {
+        await fetch(EMAIL_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: 'Új K3D SHOP chat üzenet',
+            _cc: SECOND_EMAIL,
+            name: 'K3D SHOP weboldal látogató',
+            message: message,
+            note: 'Valaki beszélgetést nyitott a K3D SHOP weboldalon. Nézd meg a weboldalt.'
+          })
+        });
+
+        addChatMessage('Köszi! Értesítettük a K3D SHOP csapatot emailben. Hamarosan válaszolunk. ✅');
+      } catch (error) {
+        addChatMessage('Az email küldés nem sikerült. Kérlek írj Discordon vagy próbáld újra később.');
+      }
+    }
+  </script>
 </body>
 </html>
