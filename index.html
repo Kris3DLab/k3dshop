@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K3D SHOP | Digitális termékek</title>
+  <link rel="icon" href="k3d_icon.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+      background: #03060d;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(0, 255, 170, 0.18), transparent 32%),
+        radial-gradient(circle at 82% 20%, rgba(0, 200, 255, 0.16), transparent 30%),
+        radial-gradient(circle at 52% 82%, rgba(90, 180, 255, 0.12), transparent 35%),
+        linear-gradient(135deg, #020505, #071326 48%, #03060d);
+      z-index: -4;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 58px 58px;
+      opacity: .55;
+      mask-image: linear-gradient(to bottom, transparent, black 16%, black 82%, transparent);
+      z-index: -3;
+      animation: gridMove 13s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from { transform: translateY(0); }
+      to { transform: translateY(58px); }
+    }
+
+    .glow {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      filter: blur(95px);
+      opacity: .58;
+      z-index: -2;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .glow.one { background: #00c8ff; top: 18%; left: 7%; }
+    .glow.two { background: #00c8ff; right: 10%; bottom: 12%; animation-delay: 2s; }
+    .glow.three { background: #5cc3ff; left: 44%; bottom: 24%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-32px) scale(1.08); }
+    }
+
+    header {
+      width: 100%;
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(3, 7, 7, 0.66);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 25px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      text-shadow: 0 0 24px rgba(0,200,255,.7);
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #00c8ff, #063c35);
+      box-shadow: 0 0 30px rgba(0,200,255,.45);
+      color: #001a14;
+      font-weight: 950;
+    }
+
+    .logo span { color: #00c8ff; }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #d9ecff;
+      text-decoration: none;
+      font-weight: 800;
+      transition: .25s;
+    }
+
+    nav a:hover {
+      color: #00c8ff;
+      text-shadow: 0 0 14px #00c8ff;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 46px;
+      padding: 135px 8% 78px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 11px 17px;
+      border: 1px solid rgba(0,200,255,.45);
+      border-radius: 999px;
+      background: rgba(0,200,255,.10);
+      color: #baffec;
+      margin-bottom: 22px;
+      box-shadow: 0 0 28px rgba(0,200,255,.18);
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(47px, 7vw, 94px);
+      line-height: .94;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+    }
+
+    h1 span {
+      color: #00c8ff;
+      text-shadow: 0 0 35px rgba(0,200,255,.75);
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #c7e8ff;
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 34px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      padding: 15px 24px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: 950;
+      cursor: pointer;
+      transition: .28s;
+      text-decoration: none;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #00c8ff, #00aaff);
+      color: #00121a;
+      box-shadow: 0 0 34px rgba(0,200,255,.34);
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      filter: brightness(1.13);
+    }
+
+    .shop-card {
+      position: relative;
+      padding: 28px;
+      border-radius: 32px;
+      background: rgba(255,255,255,.075);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 100px rgba(0,0,0,.46);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+      animation: cardFloat 5s ease-in-out infinite;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+
+    .shop-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, transparent, rgba(0,200,255,.46), transparent);
+      transform: translateX(-100%);
+      animation: shine 3.4s infinite;
+    }
+
+    @keyframes shine { to { transform: translateX(100%); } }
+
+    .shop-panel {
+      position: relative;
+      z-index: 2;
+      border-radius: 25px;
+      background: #060c1a;
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 24px;
+      min-height: 405px;
+    }
+
+    .deal-tag {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(0,200,255,.14);
+      color: #9dffe4;
+      border: 1px solid rgba(0,200,255,.22);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .product-preview {
+      height: 170px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(0,200,255,.38), transparent 24%),
+        radial-gradient(circle at 70% 70%, rgba(0,200,255,.3), transparent 26%),
+        linear-gradient(135deg, #0b1626, #071515);
+      display: grid;
+      place-items: center;
+      font-size: 70px;
+      box-shadow: inset 0 0 40px rgba(0,0,0,.35), 0 0 38px rgba(0,200,255,.15);
+      margin-bottom: 20px;
+    }
+
+    .shop-panel h2 {
+      font-size: 33px;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      font-size: 26px;
+      color: #00c8ff;
+      font-weight: 950;
+      margin-bottom: 15px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini-list div {
+      padding: 12px 14px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #d8fff5;
+      font-weight: 700;
+    }
+
+    .stats {
+      padding: 70px 8%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .stat {
+      padding: 32px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      text-align: center;
+      transition: .3s;
+    }
+
+    .stat:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 35px rgba(0,200,255,.22);
+    }
+
+    .stat h2 {
+      font-size: 42px;
+      color: #00c8ff;
+      margin-bottom: 8px;
+    }
+
+    .stat p { color: #c7e8ff; }
+
+    .section {
+      padding: 75px 8% 105px;
+    }
+
+    .section-title {
+      font-size: 42px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #c7e8ff;
+      margin-bottom: 34px;
+      font-size: 17px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      padding: 26px;
+      min-height: 285px;
+      border-radius: 25px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product::after {
+      content: "";
+      position: absolute;
+      inset: auto -35px -75px auto;
+      width: 135px;
+      height: 135px;
+      border-radius: 50%;
+      background: rgba(0,200,255,.18);
+      filter: blur(12px);
+    }
+
+    .product:hover {
+      transform: translateY(-9px);
+      background: rgba(0,200,255,.105);
+    }
+
+    .product .icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      margin-bottom: 18px;
+      background: rgba(0,200,255,.12);
+      border: 1px solid rgba(0,200,255,.22);
+      box-shadow: 0 0 24px rgba(0,200,255,.12);
+    }
+
+    .product h3 {
+      font-size: 22px;
+      margin-bottom: 11px;
+    }
+
+    .product p {
+      color: #c7e8ff;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .product .amount {
+      color: #00c8ff;
+      font-size: 22px;
+      font-weight: 950;
+      margin-bottom: 16px;
+    }
+
+    .small-btn {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      text-decoration: none;
+      color: #00121a;
+      background: #00c8ff;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 950;
+      transition: .25s;
+    }
+
+    .small-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 22px rgba(0,200,255,.3);
+    }
+
+    .cta {
+      margin: 0 8% 90px;
+      padding: 46px;
+      border-radius: 32px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(0,200,255,.20), rgba(0,170,255,.12));
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: 0 0 60px rgba(0,200,255,.13);
+    }
+
+    .cta h2 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: #c7e8ff;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding: 34px 8%;
+      text-align: center;
+      color: #96a8bd;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.22);
+    }
+
+    @media (max-width: 900px) {
+      header {
+        position: static;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 60px;
+      }
+
+      .stats,
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
+
+  <header>
+    <div class="logo">
+      <img src="k3d_icon.png" alt="K3D SHOP" style="width:44px;height:44px;border-radius:50%;box-shadow:0 0 20px rgba(0,200,255,.5);">
+      K3D <span>SHOP</span>
+    </div>
+    <nav>
+      <a href="#home">Főoldal</a>
+      <a href="#products">Termékek</a>
+      <a href="#why">Miért mi?</a>
+      <a href="#contact">Kapcsolat</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div>
+      <div class="badge">🛒 Premium • Digitális • Gyors kiszolgálás</div>
+      <h1>Üdv a <span>K3D SHOP</span>-ban.</h1>
+      <p>
+        Modern digitális shop Discord szerverekhez, botokhoz, weboldalakhoz és kreatív projektekhez.
+        Letisztult kinézet, profi megjelenés és egyszerű rendelés egy helyen.
+      </p>
+      <div class="buttons">
+        <a href="#products" class="btn primary">🛍️ Termékek megnyitása</a>
+        <a href="#contact" class="btn secondary">💬 Kapcsolat</a>
+      </div>
+    </div>
+
+    <div class="shop-card">
+      <div class="shop-panel">
+        <div class="deal-tag">🔥 Kiemelt ajánlat</div>
+        <div class="product-preview">🧊</div>
+        <h2>Premium Pack</h2>
+        <div class="price">2 990 Ft-tól</div>
+        <div class="mini-list">
+          <div>✅ Egyedi design</div>
+          <div>✅ Gyors elkészítés</div>
+          <div>✅ Discord / Web / Bot csomagok</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" id="why">
+    <div class="stat">
+      <h2>24/7</h2>
+      <p>Online rendelési lehetőség</p>
+    </div>
+    <div class="stat">
+      <h2>100%</h2>
+      <p>Modern megjelenés</p>
+    </div>
+    <div class="stat">
+      <h2>⚡</h2>
+      <p>Gyors és egyszerű folyamat</p>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <h2 class="section-title">Kiemelt termékek</h2>
+    <p class="section-subtitle">Írd át az árakat és termékeket arra, amit tényleg árulni szeretnél.</p>
+    <div class="product-grid">
+      <div class="product">
+        <div class="icon">🌐</div>
+        <h3>Weboldal csomag</h3>
+        <p>Modern landing page, reszponzív design, animációk és profi stílus.</p>
+        <div class="amount">4 990 Ft</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+
+      <div class="product">
+        <div class="icon">🤖</div>
+        <h3>Discord bot setup</h3>
+        <p>Bot beállítás, parancsok, ticket rendszer, welcome és alap konfiguráció.</p>
+        <div class="amount">3 990 Ft</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+
+      <div class="product">
+        <div class="icon">🎨</div>
+        <h3>Design pack</h3>
+        <p>Banner, ikon, profilkép vagy szerver arculat modern, letisztult stílusban.</p>
+        <div class="amount">2 490 Ft</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+
+      <div class="product">
+        <div class="icon">🛡️</div>
+        <h3>Discord szerver setup</h3>
+        <p>Csatornák, rangok, szabályzat, ticket, log és profi szerver struktúra.</p>
+        <div class="amount">5 990 Ft</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+
+      <div class="product">
+        <div class="icon">⚙️</div>
+        <h3>Egyedi konfiguráció</h3>
+        <p>Külön kérés alapján személyre szabott beállítások és kisebb javítások.</p>
+        <div class="amount">1 990 Ft-tól</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+
+      <div class="product">
+        <div class="icon">🚀</div>
+        <h3>Full starter pack</h3>
+        <p>Web + Discord setup + design alapcsomag egyben, induló projektekhez.</p>
+        <div class="amount">9 990 Ft</div>
+        <a href="#contact" class="small-btn">Rendelés</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <h2>Készen állsz rendelni?</h2>
+    <p>
+      Cseréld le ezt a részt Discord meghívóra, emailre vagy saját rendelési linkre.
+      A K3D SHOP oldala készen áll GitHub Pagesre is.
+    </p>
+    <div class="buttons" style="justify-content:center;">
+      <a href="#products" class="btn primary">🛒 Termékek</a>
+      <a href="https://discord.gg/" class="btn secondary">💬 Discord kapcsolat</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 K3D SHOP — Digitális termékek és kreatív szolgáltatások
+  </footer>
+</body>
+</html>
