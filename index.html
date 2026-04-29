@@ -1043,12 +1043,12 @@
     <button onclick="orderCart()" style="margin-top:10px;width:100%;padding:10px;border:none;border-radius:10px;background:#00c8ff;color:#00121a;font-weight:900;cursor:pointer;">Rendelés</button>
   </div>
 
-  <audio id="soundMessage" src="sounds/message.mp3" preload="auto"></audio>
-  <audio id="soundSend" src="sounds/send.mp3" preload="auto"></audio>
-  <audio id="soundAlert" src="sounds/alert.mp3" preload="auto"></audio>
-  <audio id="soundOpen" src="sounds/open.mp3" preload="auto"></audio>
-  <audio id="soundWin" src="sounds/win.mp3" preload="auto"></audio>
-
+  <!-- Hangfájlok (ugyanabban a mappában) -->
+  <audio id="soundMessage" src="message.mp3" preload="auto"></audio>
+  <audio id="soundSend" src="send.mp3" preload="auto"></audio>
+  <audio id="soundAlert" src="alert.mp3" preload="auto"></audio>
+  <audio id="soundOpen" src="open.mp3" preload="auto"></audio>
+  <audio id="soundWin" src="win.mp3" preload="auto"></audio>
   <script>
     // ─── KONFIGURÁCIÓ ───────────────────────────────────────────────
     // Ha a backend Render-en / VPS-en fut, ide írd az URL-t, pl.:
@@ -1234,22 +1234,37 @@
       }
     }
 
+
     // ── Hang lejátszás ──────────────────────────────────────────────
     function playSound(type) {
-      const map = {
+      const soundMap = {
         message: 'soundMessage',
         send:    'soundSend',
         alert:   'soundAlert',
         open:    'soundOpen',
         win:     'soundWin'
       };
-      const el = document.getElementById(map[type]);
-      if (!el) return;
-      el.currentTime = 0;
-      el.volume = 0.55;
-      el.play().catch(() => {});
-    }
 
+      const audioId = soundMap[type];
+      if (!audioId) {
+        console.warn(`Ismeretlen hang típus: ${type}`);
+        return;
+      }
+
+      const el = document.getElementById(audioId);
+      if (!el) {
+        console.warn(`Hangfájl nem található: ${type} (${audioId}.mp3)`);
+        return;
+      }
+
+      try {
+        el.currentTime = 0;
+        el.volume = 0.55;
+        el.play();
+      } catch (e) {
+        console.warn('Hang lejátszása sikertelen:', e);
+      }
+    }
     // ── Chat üzenetek ───────────────────────────────────────────────
     function fillMessage(text) {
       document.getElementById('chatMessage').value = text;
