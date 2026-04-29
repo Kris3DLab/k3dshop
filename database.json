@@ -1,0 +1,106 @@
+{
+  "users": [
+    {
+      "id": "d6f603b71e2b0a9f",
+      "username": "kris",
+      "passwordHash": "d999056550fd648de6de0537f389c3da467f846a4fd6117a62cb54ba1c23cf3c",
+      "token": "a032a79622fe6f4a55d354bfc1ef04676a0a513b90e910dcc061c3915684fdf9",
+      "sessionId": "K3D-D4171111",
+      "createdAt": "2026-04-28T18:32:19.715Z"
+    },
+    {
+      "id": "af6b487ccc430073",
+      "username": "diddy",
+      "passwordHash": "9efa46658c068027e87a6ee51bf3247998ad36031ebe175703b0bb03eb7a66f5",
+      "token": "ccc6e7e87fb4fde9922291865649209e4fedeaa6aff5ec7bd1ce3d0f83b5edcc",
+      "sessionId": "K3D-D848ED3D",
+      "createdAt": "2026-04-28T18:34:30.344Z"
+    }
+  ],
+  "conversations": {
+    "K3D-D4171111": [
+      {
+        "from": "visitor",
+        "message": "szia",
+        "username": "kris",
+        "time": "2026-04-28T18:32:26.128Z"
+      },
+      {
+        "from": "staff",
+        "message": "szevasz",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:32:41.760Z"
+      },
+      {
+        "from": "visitor",
+        "message": "szeretnék egy discord botot",
+        "username": "kris",
+        "time": "2026-04-28T18:32:50.824Z"
+      },
+      {
+        "from": "staff",
+        "message": "nem csinálok, menj innen",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:33:07.446Z"
+      },
+      {
+        "from": "visitor",
+        "message": "ok",
+        "username": "kris",
+        "time": "2026-04-28T18:36:30.137Z"
+      },
+      {
+        "from": "visitor",
+        "message": "szia",
+        "username": "kris",
+        "time": "2026-04-28T18:42:16.058Z"
+      },
+      {
+        "from": "staff",
+        "message": "szevasz",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:42:26.705Z"
+      },
+      {
+        "from": "visitor",
+        "message": "ok",
+        "username": "kris",
+        "time": "2026-04-28T18:49:57.876Z"
+      },
+      {
+        "from": "staff",
+        "message": "hagyj már",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:50:07.459Z"
+      },
+      {
+        "from": "staff",
+        "type": "status",
+        "message": "📦 Rendelés státusz: Feldolgozás alatt",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:56:25.733Z"
+      },
+      {
+        "from": "staff",
+        "type": "closed",
+        "message": "Chat lezárva",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:56:45.000Z"
+      }
+    ],
+    "K3D-D848ED3D": [
+      {
+        "from": "visitor",
+        "message": "rar",
+        "username": "diddy",
+        "time": "2026-04-28T18:34:34.414Z"
+      },
+      {
+        "from": "staff",
+        "message": "bro menj már innen",
+        "staff": "kris3dlab_yt",
+        "time": "2026-04-28T18:34:44.657Z"
+      }
+    ]
+  }
+}
